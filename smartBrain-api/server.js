@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 //IMPORTANTISIMO: body-parser extrae la información de una secuencia entrante y la expone en el req(request), este modulo analiza los datos JSON codificados enviados
 //utlizando la solicitud HTTP POST. (instalar con "npm install --save body-parser")
+const bcrypt = require('bcrypt-nodejs');
 
 const app = express();
 
@@ -37,7 +38,15 @@ app.get('/', (req, res)=>{
 })
 
 app.post('/signin',(req, res)=>{
-    if(req.body.email === database.user[0].email && req.body.password === database.user[0].password){
+    
+    bcrypt.compare("apples", "$2a$10$BQ68ILFRPzn6H5tvW1ZHDO45pvpZsUIbVok/PUTJwEkJj/xxS3IO6", function(err, res) {
+       console.log('first guess', res);
+    });
+    bcrypt.compare("veggies", "$2a$10$BQ68ILFRPzn6H5tvW1ZHDO45pvpZsUIbVok/PUTJwEkJj/xxS3IO6", function(err, res) {
+        console.log('second guess', res);
+    });
+
+    if(req.body.email === database.users[0].email && req.body.password === database.user[0].password){
         res.json('success');
     }else{
         res.status(400).json('error logging in')
@@ -88,6 +97,19 @@ app.put('/image', (req, res)=>{
         res.status(404).json('not found')
     }
 })
+
+
+// bcrypt.hash(password, null, null, function(err, hash) {
+//     console.log(hash);
+//     // Store hash in your password DB.
+// });
+// // Load hash from your password DB.
+// bcrypt.compare("bacon", hash, function(err, res) {
+//     // res == true
+// });
+// bcrypt.compare("veggies", hash, function(err, res) {
+//     // res = false
+// });
 
 app.listen(3000, ()=>{
     console.log('app is running on port 3000');
