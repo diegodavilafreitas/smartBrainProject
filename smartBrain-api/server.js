@@ -35,23 +35,17 @@ const database = {
         }
     ]
 }
-app.use(bodyParser.json())
 app.use(cors());
+app.use(bodyParser.json());
+
 
 app.get('/', (req, res)=>{
     res.send(database.users)
 })
 
 app.post('/signin',(req, res)=>{
-    
-    bcrypt.compare("apples", "$2a$10$BQ68ILFRPzn6H5tvW1ZHDO45pvpZsUIbVok/PUTJwEkJj/xxS3IO6", function(err, res) {
-       console.log('first guess', res);
-    });
-    bcrypt.compare("veggies", "$2a$10$BQ68ILFRPzn6H5tvW1ZHDO45pvpZsUIbVok/PUTJwEkJj/xxS3IO6", function(err, res) {
-        console.log('second guess', res);
-    });
 
-    if(req.body.email === database.users[0].email && req.body.password === database.user[0].password){
+    if(req.body.email === database.users[0].email && req.body.password === database.users[0].password){
         res.json('success');
     }else{
         res.status(400).json('error logging in')
