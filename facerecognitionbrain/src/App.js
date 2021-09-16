@@ -41,6 +41,8 @@ class App extends Component{
 
     }
   }
+  
+
 
   calculculateFaceLocation = (data) =>{
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box
@@ -55,6 +57,7 @@ class App extends Component{
     }
 
   }
+
 
   displayFaceBox = (box) => {
      this.setState({box: box})
@@ -85,6 +88,7 @@ class App extends Component{
     this.setState({route: route});
   }
 
+  
   render(){
    const { isSignedIn, imageUrl, route, box} = this.state;
     return(
